@@ -81,10 +81,11 @@ namespace WinFormsApp2
         }
 
         bool start_stop = false;
-        private async Task start_button_Click(object sender, EventArgs e)
+        private async void start_button_Click(object sender, EventArgs e)
         {
             start_stop = true;
             scan_state.BackColor = Color.Green;
+            scan_state.Text = "running";
             var sqlite = new System.Data.SQLite.SQLiteConnection("Data Source=./database.db");
             sqlite.Open();
             var cmd = sqlite.CreateCommand();
@@ -108,12 +109,21 @@ namespace WinFormsApp2
             usbSendAndRead.Write(equment_add, ":DISPLAY:NORMAL:ITEM2 I,1");
             usbSendAndRead.Write(equment_add, ":DISPLAY:NORMAL:ITEM3 P,1");
             //measure value setting
-            usbSendAndRead.Write(equment_add, ":DISPLAY:NORMAL:ITEM1 U,1");
-            usbSendAndRead.Write(equment_add, ":DISPLAY:NORMAL:ITEM2 I,1");
-            usbSendAndRead.Write(equment_add, ":DISPLAY:NORMAL:ITEM3 P,1");
+            usbSendAndRead.Write(equment_add, ":NUMERIC:NORMAL:ITEM1 U,1");
+            usbSendAndRead.Write(equment_add, ":NUMERIC:NORMAL:ITEM2 I,1");
+            usbSendAndRead.Write(equment_add, ":NUMERIC:NORMAL:ITEM3 P,1");
 
             int milliseconds = short.Parse(interval_textBox.Text);
-            Thread.Sleep(milliseconds);
+
+            /*var t = Task.Run(async delegate
+            {
+                await Task.Delay(1000);
+                //return 42;
+            });
+            t.Wait();*/
+            //Thread.Sleep(milliseconds);
+            //TestCorrect();
+            await Task.Delay(500);
 
             while (start_stop == true)
             {
@@ -131,7 +141,16 @@ namespace WinFormsApp2
                 DateTime just_now = DateTime.Now; // 12/20/2015 11:48:09 AM  
                 cmd.CommandText = "INSERT INTO chargePC Values ('" + re_name + "', '" + read_arr[0] + "', '" + read_arr[1] + "', '" + read_arr[2] + "', '" + just_now + "');";
                 cmd.ExecuteNonQuery();
-                Thread.Sleep(milliseconds);
+                float vinf = float.Parse(read_arr[0]);
+                float iinf = float.Parse(read_arr[1]);
+                float pinf = float.Parse(read_arr[2]);
+
+                vin_value_label.Text = vinf.ToString();
+                iin_value_label.Text = iinf.ToString();
+                pin_value_label.Text = pinf.ToString();
+
+                await Task.Delay(500);
+                //Thread.Sleep(milliseconds);
 
                 //float.Parse(read_arr[1]);
 
@@ -143,10 +162,25 @@ namespace WinFormsApp2
 
         }
 
+        /*private static async Task TestCorrect()
+        {
+            await Task.Run(async () => //Task.Run automatically unwraps nested Task types!
+            {
+                //Console.WriteLine("Start");
+                await Task.Delay(1000);
+                //Console.WriteLine("Done");
+            });
+            //Console.WriteLine("All done");
+        }*/
+
         private void Stop_button_Click(object sender, EventArgs e)
         {
             start_stop = false;
             scan_state.BackColor = Color.White;
+            scan_state.Text = "stop";
+            vin_value_label.Text = "NAN";
+            iin_value_label.Text = "NAN";
+            pin_value_label.Text = "NAN";
         }
     }
 }

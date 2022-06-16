@@ -37,6 +37,12 @@
             this.record_name_textbox = new System.Windows.Forms.TextBox();
             this.interval_textBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.pin_value_label = new System.Windows.Forms.Label();
+            this.iin_value_label = new System.Windows.Forms.Label();
+            this.vin_value_label = new System.Windows.Forms.Label();
+            this.pin_label = new System.Windows.Forms.Label();
+            this.iin_label = new System.Windows.Forms.Label();
+            this.vin_label = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // scan_state
@@ -117,11 +123,71 @@
             this.label1.TabIndex = 9;
             this.label1.Text = "interval";
             // 
+            // pin_value_label
+            // 
+            this.pin_value_label.AutoSize = true;
+            this.pin_value_label.Location = new System.Drawing.Point(202, 355);
+            this.pin_value_label.Name = "pin_value_label";
+            this.pin_value_label.Size = new System.Drawing.Size(44, 20);
+            this.pin_value_label.TabIndex = 10;
+            this.pin_value_label.Text = "NAN";
+            // 
+            // iin_value_label
+            // 
+            this.iin_value_label.AutoSize = true;
+            this.iin_value_label.Location = new System.Drawing.Point(112, 355);
+            this.iin_value_label.Name = "iin_value_label";
+            this.iin_value_label.Size = new System.Drawing.Size(44, 20);
+            this.iin_value_label.TabIndex = 11;
+            this.iin_value_label.Text = "NAN";
+            // 
+            // vin_value_label
+            // 
+            this.vin_value_label.AutoSize = true;
+            this.vin_value_label.Location = new System.Drawing.Point(32, 355);
+            this.vin_value_label.Name = "vin_value_label";
+            this.vin_value_label.Size = new System.Drawing.Size(44, 20);
+            this.vin_value_label.TabIndex = 12;
+            this.vin_value_label.Text = "NAN";
+            // 
+            // pin_label
+            // 
+            this.pin_label.AutoSize = true;
+            this.pin_label.Location = new System.Drawing.Point(202, 312);
+            this.pin_label.Name = "pin_label";
+            this.pin_label.Size = new System.Drawing.Size(31, 20);
+            this.pin_label.TabIndex = 13;
+            this.pin_label.Text = "Pin";
+            // 
+            // iin_label
+            // 
+            this.iin_label.AutoSize = true;
+            this.iin_label.Location = new System.Drawing.Point(112, 312);
+            this.iin_label.Name = "iin_label";
+            this.iin_label.Size = new System.Drawing.Size(26, 20);
+            this.iin_label.TabIndex = 14;
+            this.iin_label.Text = "Iin";
+            // 
+            // vin_label
+            // 
+            this.vin_label.AutoSize = true;
+            this.vin_label.Location = new System.Drawing.Point(32, 312);
+            this.vin_label.Name = "vin_label";
+            this.vin_label.Size = new System.Drawing.Size(32, 20);
+            this.vin_label.TabIndex = 15;
+            this.vin_label.Text = "Vin";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.vin_label);
+            this.Controls.Add(this.iin_label);
+            this.Controls.Add(this.pin_label);
+            this.Controls.Add(this.vin_value_label);
+            this.Controls.Add(this.iin_value_label);
+            this.Controls.Add(this.pin_value_label);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.interval_textBox);
             this.Controls.Add(this.record_name_textbox);
@@ -149,5 +215,11 @@
         private TextBox record_name_textbox;
         private TextBox interval_textBox;
         private Label label1;
+        private Label pin_value_label;
+        private Label iin_value_label;
+        private Label vin_value_label;
+        private Label pin_label;
+        private Label iin_label;
+        private Label vin_label;
     }
 }
