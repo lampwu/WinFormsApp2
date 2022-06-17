@@ -43,6 +43,11 @@
             this.pin_label = new System.Windows.Forms.Label();
             this.iin_label = new System.Windows.Forms.Label();
             this.vin_label = new System.Windows.Forms.Label();
+            this.expert_button = new System.Windows.Forms.Button();
+            this.csv_file_name_textBox = new System.Windows.Forms.TextBox();
+            this.csv_file_name_label = new System.Windows.Forms.Label();
+            this.record_name_list = new System.Windows.Forms.CheckedListBox();
+            this.query_r_name_button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // scan_state
@@ -88,7 +93,7 @@
             this.start_button.Name = "start_button";
             this.start_button.Size = new System.Drawing.Size(94, 29);
             this.start_button.TabIndex = 5;
-            this.start_button.Text = "Start";
+            this.start_button.Text = "start";
             this.start_button.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.start_button.UseVisualStyleBackColor = true;
             this.start_button.Click += new System.EventHandler(this.start_button_Click);
@@ -177,11 +182,60 @@
             this.vin_label.TabIndex = 15;
             this.vin_label.Text = "Vin";
             // 
+            // expert_button
+            // 
+            this.expert_button.Location = new System.Drawing.Point(395, 239);
+            this.expert_button.Name = "expert_button";
+            this.expert_button.Size = new System.Drawing.Size(96, 63);
+            this.expert_button.TabIndex = 16;
+            this.expert_button.Text = "expert data";
+            this.expert_button.UseVisualStyleBackColor = true;
+            this.expert_button.Click += new System.EventHandler(this.expert_button_Click);
+            // 
+            // csv_file_name_textBox
+            // 
+            this.csv_file_name_textBox.Location = new System.Drawing.Point(395, 195);
+            this.csv_file_name_textBox.Name = "csv_file_name_textBox";
+            this.csv_file_name_textBox.Size = new System.Drawing.Size(224, 27);
+            this.csv_file_name_textBox.TabIndex = 17;
+            // 
+            // csv_file_name_label
+            // 
+            this.csv_file_name_label.AutoSize = true;
+            this.csv_file_name_label.Location = new System.Drawing.Point(389, 172);
+            this.csv_file_name_label.Name = "csv_file_name_label";
+            this.csv_file_name_label.Size = new System.Drawing.Size(102, 20);
+            this.csv_file_name_label.TabIndex = 18;
+            this.csv_file_name_label.Text = "csv file name";
+            // 
+            // record_name_list
+            // 
+            this.record_name_list.FormattingEnabled = true;
+            this.record_name_list.Location = new System.Drawing.Point(625, 27);
+            this.record_name_list.Name = "record_name_list";
+            this.record_name_list.Size = new System.Drawing.Size(150, 334);
+            this.record_name_list.TabIndex = 19;
+            // 
+            // query_r_name_button
+            // 
+            this.query_r_name_button.Location = new System.Drawing.Point(625, 367);
+            this.query_r_name_button.Name = "query_r_name_button";
+            this.query_r_name_button.Size = new System.Drawing.Size(150, 48);
+            this.query_r_name_button.TabIndex = 20;
+            this.query_r_name_button.Text = "query record names";
+            this.query_r_name_button.UseVisualStyleBackColor = true;
+            this.query_r_name_button.Click += new System.EventHandler(this.query_r_name_button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.query_r_name_button);
+            this.Controls.Add(this.record_name_list);
+            this.Controls.Add(this.csv_file_name_label);
+            this.Controls.Add(this.csv_file_name_textBox);
+            this.Controls.Add(this.expert_button);
             this.Controls.Add(this.vin_label);
             this.Controls.Add(this.iin_label);
             this.Controls.Add(this.pin_label);
@@ -221,5 +275,10 @@
         private Label pin_label;
         private Label iin_label;
         private Label vin_label;
+        private Button expert_button;
+        private TextBox csv_file_name_textBox;
+        private Label csv_file_name_label;
+        private CheckedListBox record_name_list;
+        private Button query_r_name_button;
     }
 }
