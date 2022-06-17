@@ -253,7 +253,7 @@ namespace WinFormsApp2
             return;
         }
 
-        public class record_name_list
+        public class recordname
         {
             public string? name { get; set; }
 
@@ -261,7 +261,7 @@ namespace WinFormsApp2
 
         private async void query_r_name_button_Click(object sender, EventArgs e)
         {
-            var sqlite = new System.Data.SQLite.SQLiteConnection("Data Source=./database.db");
+            var sqlite = new SQLiteConnection("Data Source=./database.db");
             sqlite.Open();
             var cmd = sqlite.CreateCommand();
             //var resultList = new List<string>();
@@ -269,12 +269,12 @@ namespace WinFormsApp2
 
             cmd.CommandText = "select DISTINCT recordname from chargePC;";
             var reader = await cmd.ExecuteReaderAsync();
-            var records = new List<record_name_list>();
+            var records = new List<recordname>();
 
             while (await reader.ReadAsync())
             {
                 //var name = reader.GetString(0);
-                records.Add(new record_name_list
+                records.Add(new recordname
                 {
                     name = reader.GetString(0)
                     
