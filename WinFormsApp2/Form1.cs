@@ -242,7 +242,7 @@ namespace WinFormsApp2
                 return;
             }
 
-            SQLiteParameter rq = new SQLiteParameter();
+            //SQLiteParameter rq = new SQLiteParameter();
             //cmd.Parameters.Add(rq);
             //rq.Value = record_name_list.SelectedItem;
             //cmd.Parameters.Add(new SQLiteParameter("@renamequery", record_name_list.SelectedItem));
