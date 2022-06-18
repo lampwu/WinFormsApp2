@@ -10,6 +10,7 @@ using System.Data.Common;
 using CsvHelper;
 using System.Globalization;
 using System.Diagnostics;
+using System.Data;
 
 namespace WinFormsApp2
 {
@@ -139,8 +140,17 @@ namespace WinFormsApp2
                 readList.Add(float.Parse(read_arr[1]));
                 readList.Add(float.Parse(read_arr[2]));*/
                 //insertuip(re_name,read_arr[0], read_arr[1], read_arr[2]);
+                //https://stackoverflow.com/questions/12939501/insert-into-c-sharp-with-sqlcommand
+                cmd.CommandText = "INSERT INTO chargePC Values (@param1,@param2,@param3,@param4,@param5);";
                 DateTime just_now = DateTime.Now; // 12/20/2015 11:48:09 AM  
-                cmd.CommandText = "INSERT INTO chargePC Values ('" + re_name + "', '" + read_arr[0] + "', '" + read_arr[1] + "', '" + read_arr[2] + "', '" + just_now + "');";
+                cmd.Parameters.Add("@param1", DbType.String).Value = re_name;
+                cmd.Parameters.Add("@param2", DbType.String).Value = read_arr[0];
+                cmd.Parameters.Add("@param3", DbType.String).Value = read_arr[1];
+                cmd.Parameters.Add("@param4",DbType.String).Value = read_arr[2];
+                cmd.Parameters.Add("@param4", DbType.DateTime).Value = just_now;
+                cmd.CommandType = CommandType.Text;
+
+
                 cmd.ExecuteNonQuery();
                 float vinf = float.Parse(read_arr[0]);
                 float iinf = float.Parse(read_arr[1]);
@@ -211,8 +221,6 @@ namespace WinFormsApp2
                 {
                     target_directory = fbd.SelectedPath;
                     target_directory = target_directory + "/" + csv_file_name_textBox.Text + ".csv";
-
-                    //MessageBox.Show("dir: " + target_directory, "Message");
                 }
             }
 
@@ -221,11 +229,54 @@ namespace WinFormsApp2
             sqlite.Open();
             var cmd = sqlite.CreateCommand();
             var resultList = new List<string>();
+            if (record_name_list.CheckedItems.Count < 1)
+            {
+                MessageBox.Show("No record name selected", "Message");
 
+                return;
+            };
 
-            cmd.CommandText = "select * from chargePC;";
-            var reader = await cmd.ExecuteReaderAsync();
+            if (record_name_list.Items.Count == 0)
+            {
+                MessageBox.Show("Free record data", "Message");
+                return;
+            }
+
+            SQLiteParameter rq = new SQLiteParameter();
+            //cmd.Parameters.Add(rq);
+            //rq.Value = record_name_list.SelectedItem;
+            //cmd.Parameters.Add(new SQLiteParameter("@renamequery", record_name_list.SelectedItem));
             var records = new List<measurelist>();
+            List<string> res = new List<string>();
+            foreach (var item in record_name_list.CheckedItems)
+            {
+                res.Add((string)item);
+                Debug.WriteLine(item.ToString());
+            }
+            //string res = string.Join(",", record_name_list.CheckedItems);
+            //Debug.WriteLine(res.ToString());
+            //string combinedString = string.Join(",", res.ToArray());
+            //Debug.WriteLine(combinedString);
+
+            //cmd.CommandText = "select * from chargePC where recordname in (@renamequery);";
+
+            //cmd.Parameters.Add("@renamequery", DbType.String);
+            //cmd.Parameters["@renamequery"].Value = combinedString;
+            //cmd.Parameters.AddWithValue("@renamequery", combinedString);
+            //https://stackoverflow.com/questions/2377506/pass-array-parameter-in-sqlcommand
+            var parameters = new string[record_name_list.CheckedItems.Count];
+
+            for (int i = 0; i < record_name_list.CheckedItems.Count; i++)
+            {
+                parameters[i] = string.Format("'{0}'", res[i]);
+                cmd.Parameters.AddWithValue(parameters[i], res[i]);
+            }
+
+            cmd.CommandText = string.Format("select * from chargePC where recordname in ({0});", string.Join(", ", parameters));
+            //cmd.CommandText = "select * from chargePC where recordname in ('adsadasd','hhhj');";
+            Debug.WriteLine(cmd.CommandText);
+
+            var reader = await cmd.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
@@ -244,10 +295,10 @@ namespace WinFormsApp2
             {
                 csv.WriteRecords(records);
             }
+            records.Clear();
             cmd.Dispose();
             sqlite.Close();
             sqlite.Dispose();
-            records.Clear();
             MessageBox.Show("export complete", "Message");
             csv_file_name_textBox.Enabled = true;
             expert_button.Enabled = true;
@@ -260,14 +311,13 @@ namespace WinFormsApp2
 
         }*/
 
+        //query record name
         private async void query_r_name_button_Click(object sender, EventArgs e)
         {
             record_name_list.Items.Clear();
             var sqlite = new SQLiteConnection("Data Source=./database.db");
             sqlite.Open();
             var cmd = sqlite.CreateCommand();
-            //var resultList = new List<string>();
-
             cmd.CommandText = "select DISTINCT recordname from chargePC;";
             var reader = await cmd.ExecuteReaderAsync();
             List<string> recordname = new List<string>();
