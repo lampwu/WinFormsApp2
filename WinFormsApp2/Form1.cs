@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Data.Common;
 using CsvHelper;
 using System.Globalization;
+using System.Diagnostics;
 
 namespace WinFormsApp2
 {
@@ -247,44 +248,42 @@ namespace WinFormsApp2
             sqlite.Close();
             sqlite.Dispose();
             records.Clear();
-            MessageBox.Show("hello", "Message");
+            MessageBox.Show("export complete", "Message");
             csv_file_name_textBox.Enabled = true;
             expert_button.Enabled = true;
             return;
         }
 
-        public class recordname
+        /*public class recordname
         {
             public string? name { get; set; }
 
-        }
+        }*/
 
         private async void query_r_name_button_Click(object sender, EventArgs e)
         {
+            record_name_list.Items.Clear();
             var sqlite = new SQLiteConnection("Data Source=./database.db");
             sqlite.Open();
             var cmd = sqlite.CreateCommand();
             //var resultList = new List<string>();
 
-
             cmd.CommandText = "select DISTINCT recordname from chargePC;";
             var reader = await cmd.ExecuteReaderAsync();
-            var records = new List<recordname>();
+            List<string> recordname = new List<string>();
 
             while (await reader.ReadAsync())
             {
-                //var name = reader.GetString(0);
-                records.Add(new recordname
-                {
-                    name = reader.GetString(0)
-                    
-                });
+                recordname.Add(reader.GetString(0));
             }
+            //Debug.WriteLine(AuthorList);
+            //Debug.WriteLine(AuthorList.Count);
+            //Debug.WriteLine("hello");
+            record_name_list.Items.AddRange(recordname.ToArray());
             cmd.Dispose();
             sqlite.Close();
             sqlite.Dispose();
-            records.Clear();
-
+            recordname.Clear();
         }
     }
 }

@@ -188,7 +188,7 @@
             this.expert_button.Name = "expert_button";
             this.expert_button.Size = new System.Drawing.Size(96, 63);
             this.expert_button.TabIndex = 16;
-            this.expert_button.Text = "expert data";
+            this.expert_button.Text = "export data";
             this.expert_button.UseVisualStyleBackColor = true;
             this.expert_button.Click += new System.EventHandler(this.expert_button_Click);
             // 
